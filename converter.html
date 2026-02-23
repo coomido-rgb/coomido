@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file" accept="image/jpeg" id="upload" />
+
+    <script>
+        document.getElementById("upload").addEventListener("change", async (e) => {
+            const file = e.target.files[0];
+            const bitmap = await createImageBitmap(file);
+
+            const canvas = document.createElement("canvas");
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(bitmap, 0, 0);
+
+            canvas.toBlob((blob) => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "image.webp";
+                link.click();
+            }, "image/webp", 0.8);
+        });
+    </script>
+
+</body>
+
+</html>

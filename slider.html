@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services Block</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f3f3f3;
+            color: #111;
+        }
+
+        .services-section {
+            padding: 100px 40px;
+        }
+
+        .services-container {
+            max-width: 1300px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 100px;
+            align-items: start;
+        }
+
+        .services-left small {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .services-left h2 {
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+
+        .services-left p {
+            font-size: 14px;
+            color: #777;
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 420px;
+        }
+
+        .services-right {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+
+        .services-right::-webkit-scrollbar {
+            display: none;
+        }
+
+        .services-right::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        .service-item {
+            padding: 40px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item h3 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .service-item p {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #777;
+            max-width: 520px;
+        }
+
+        @media (max-width: 1024px) {
+            .services-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .services-right {
+                max-height: none;
+                overflow: visible;
+                padding-right: 0;
+            }
+
+        }
+
+        @media (max-width: 576px) {
+
+            .services-section {
+                padding: 60px 20px;
+            }
+
+            .services-left h2 {
+                font-size: 30px;
+            }
+
+            .service-item h3 {
+                font-size: 24px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="services-section">
+        <div class="services-container">
+
+            <!-- LEFT SIDE -->
+            <div class="services-left">
+                <small>AWARD WINNING WHITE-GLOVE ECOMMERCE AGENCY</small>
+                <h2>What do we offer</h2>
+                <p>
+                    Our eCommerce services include a 360 degree approach. With this approach we're taking your Webshop
+                    to new heights and making sure you always stay on top of everything.
+                </p>
+            </div>
+
+            <!-- RIGHT SIDE (SCROLLABLE) -->
+            <div class="services-right">
+                <div class="service-item">
+                    <h3>Strategy</h3>
+                    <p>
+                        We don't just create a plan; we craft a meticulously tailored roadmap to success. With an
+                        in-depth understanding of your brand, target audience, and industry landscape, we devise a
+                        strategy that will steer your ecommerce business towards remarkable growth.
+                    </p>
+                </div>
+
+                <div class="service-item">
+                    <h3>Consultancy & Auditing</h3>
+                    <p>
+                        We meticulously evaluate your ecommerce operations to identify opportunities for growth,
+                        efficiency, and support before or during a replatforming. Our tailored recommendations are aimed
+                        at optimizing your digital storefront to enhance user experience, increase conversion rates, and
+                        drive sustainable revenue growth.
+                    </p>
+                </div>
+
+                <div class="service-item">
+                    <h3>Shopify (Plus) Development</h3>
+                    <p>
+                        As a trusted Shopify Premier Partner, we offer tailored Shopify Plus solutions for businesses
+                        looking to thrive in the Ecommerce realm. From designing and developing a visually stunning and
+                        user-friendly online store to integrating powerful features and functionalities.
+                    </p>
+                </div>
+
+                <div class="service-item">
+                    <h3>Design</h3>
+                    <p>
+                        Our design services are a blend of artistry and functionality. With a keen eye for detail and a
+                        focus on seamless user experiences, we create visually stunning and user-friendly designs that
+                        reflect your brand's identity and drive conversions.
+                    </p>
+                </div>
+
+                <div class="service-item">
+                    <h3>Performance Marketing</h3>
+                    <p>
+                        We craft data-driven campaigns to scale your eCommerce business. From paid ads to conversion
+                        rate optimization, we ensure measurable and sustainable growth across digital channels.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

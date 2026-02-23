@@ -1,0 +1,932 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://kit.fontawesome.com/ba832cec92.js" crossorigin="anonymous"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=MonteCarlo&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        header {
+            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 11px;
+        }
+
+        .wipe-btn {
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s ease-in-out;
+            border: 1px solid black;
+            background-color: black;
+            color: white;
+            border-radius: 25px;
+            padding: 12px 30px;
+            letter-spacing: 1px;
+            font-size: 11px;
+        }
+
+        .wipe-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 0;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .wipe-btn-text {
+            position: relative;
+            z-index: 10;
+            display: block;
+        }
+
+        .wipe-btn:hover {
+            color: black;
+        }
+
+        .wipe-btn:hover::after {
+            transform: translateY(0);
+        }
+
+        body {
+            scroll-behavior: smooth;
+        }
+
+        .section-head {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .stack-container {
+            min-height: 400vh;
+            padding-top: 5vh;
+        }
+
+        .card {
+            height: 50vh;
+            width: 90%;
+            margin: 0 auto 40px auto;
+            padding: 20px 20px 20px 45px;
+            border-radius: 12px;
+            position: sticky;
+            top: calc(10vh + (var(--i) * 1vh));
+            z-index: calc(10 + var(--i));
+            background: #202a33;
+            border: 1px solid rgba(220, 220, 220, 0.5);
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .card h2,
+        .card h3 {
+            color: #ffffff;
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            color: #999999;
+            font-size: 12px;
+            margin-bottom: 20px;
+            max-width: 100%;
+        }
+
+        .cta {
+            padding: 8px 20px;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            background: rgba(217, 217, 217, .2);
+            color: #dddddd;
+            display: inline-block;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-top: 7px;
+            transition: background-color 0.3s;
+        }
+
+        .cta:hover {
+            background-color: #34495e;
+        }
+
+        /* --- SECTION --- */
+        .contact-section {
+            width: 100%;
+            text-align: left;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        /* Wrapper allowing horizontal overflow on mobile */
+        .contact-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            padding: 0 40px;
+        }
+
+        .contact-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .contact-wrapper {
+            scrollbar-width: none;
+        }
+
+        /* --- LEFT CONTENT --- */
+        .contact-left {
+            max-width: 520px;
+            scroll-snap-align: start;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #f2f2f2;
+            font-size: 12px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-left h1 {
+            margin: 25px 0;
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 600;
+        }
+
+        .subtext {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .points {
+            margin-bottom: 40px;
+            padding-left: 18px;
+            line-height: 1;
+            color: #555;
+        }
+
+        .points li {
+            font-size: 11px;
+            margin-bottom: 10px;
+            list-style-type: disc;
+        }
+
+        .logos img {
+            height: 28px;
+            margin-right: 40px;
+            opacity: 0.9;
+        }
+
+        /* --- FORM --- */
+        .contact-form {
+            width: 450px;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            scroll-snap-align: start;
+        }
+
+        .contact-form label {
+            font-size: 12px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .contact-form input {
+            background: #f3f3f3;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .contact-form button {
+            margin-top: 10px;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #000;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+
+        footer .container {
+            background-color: black;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 100px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col h4 {
+            color: #999999;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-size: 11px;
+            position: relative;
+        }
+
+        .footer-col ul li {
+            padding: 8px 0;
+        }
+
+        .footer-col ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 11px;
+            opacity: 0.7;
+            transition: 0.5s;
+        }
+
+        .footer-col ul li a:hover {
+            opacity: 1;
+            color: white;
+        }
+
+        .footer-col .inputSubmit {
+            border: none;
+            border-radius: 25px;
+            width: 200px;
+            height: 45px;
+            font-size: 11px;
+            display: block;
+            padding-left: 20px;
+            margin: 14px 0;
+        }
+
+        .footer-col .inputSubmit:hover {
+            border: 1px solid white;
+        }
+
+        .footer-col .inputSubmit {
+            padding: 0px 20px;
+            background-color: white;
+            border: none;
+            color: black;
+            transition: background-color 0.4s ease-in-out;
+        }
+
+        .footer-col .inputSubmit:hover {
+            border: 1px solid white;
+            background-color: black;
+            color: white;
+        }
+
+        .col p {
+            color: #999999;
+            font-size: 11px;
+        }
+
+        .row hr {
+            opacity: 0.7;
+        }
+
+        .row .socialIcons i {
+            display: inline-block;
+            color: #999999;
+            font-size: 20px;
+            margin: 0 15px;
+            transition: 0.5s;
+        }
+
+        .footer-head {
+            color: white;
+            font-size: 2rem;
+            margin: 40px 0 0 0;
+            padding-left: 6rem
+        }
+
+        .footer-head span {
+            font-family: "MonteCarlo", cursive;
+            font-size: 2.5rem;
+        }
+
+
+        .services-head {
+            display: block;
+            margin-top: 80px;
+            color: #000000;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .services-desc {
+            display: block;
+            margin-top: 10px;
+            color: #999999;
+            font-size: 12px;
+            max-width: 400px;
+            margin-top: 30px;
+        }
+
+        .exp-btn {
+            background-color: #F2f2f2;
+            color: #727272c2;
+            border: none;
+            text-transform: uppercase;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 10px;
+            margin: 0px 2px 5px 0px;
+            cursor: pointer;
+            transition: background-color 0.4s ease-in-out;
+        }
+
+        .difference-section {
+            padding: 48px 20px;
+            margin: auto;
+            text-align: center
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 28px
+        }
+
+        .cards-slider-wrapper {
+            overflow: hidden;
+            margin: auto;
+            position: relative
+        }
+
+        .cards-slider-container {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 8px
+        }
+
+        .cards-slider-container::-webkit-scrollbar {
+            display: none
+        }
+
+        .card-slider {
+            min-width: 290px;
+            max-width: 360px;
+            flex: 0 0 auto;
+            text-align: left;
+        }
+
+        .card-slider img {
+            width: 100%;
+            height: 290px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 16px
+        }
+
+        .card-slider h3 {
+            font-size: 20px;
+            margin-bottom: 12px
+        }
+
+        .card-slider p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px
+        }
+
+        .scroll-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: end;
+            gap: 10px
+        }
+
+        .scroll-buttons button {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: none;
+            background: #000;
+            color: #fff;
+            cursor: pointer
+        }
+
+        @media(min-width:1024px) {
+            .cards-slider-container {
+                justify-content: center;
+                overflow-x: visible
+            }
+
+            .scroll-buttons {
+                display: none
+            }
+
+            .card {
+                min-width: 320px
+            }
+        }
+
+        @media (max-width: 600px) {
+            footer .row {
+                flex-direction: column;
+                padding: 20px 30px;
+            }
+
+            footer .footer-col ul {
+                margin-left: 20px;
+                margin-bottom: 20px;
+                color: white;
+            }
+
+            .footer-col input {
+                width: 100%;
+            }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .contact-wrapper {
+                flex-direction: row;
+                gap: 40px;
+            }
+
+            .contact-left h1 {
+                font-size: 2.3rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .contact-wrapper {
+                flex-direction: column;
+                padding: 0 20px;
+            }
+
+            .contact-left,
+            .contact-form {
+                scroll-snap-align: none;
+            }
+
+            .logos img {
+                height: 22px;
+                margin-right: 20px;
+            }
+        }
+
+        /* ----- DESKTOP GRID ----- */
+        @media (min-width: 900px) {
+            .wmud-cards-wrapper {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                overflow: visible;
+                gap: 5px;
+                padding: 0 40px;
+            }
+
+            .wmud-card {
+                min-width: unset;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                height: 60vh;
+                width: 70%;
+                max-width: 900px;
+                padding: 40px;
+                border-radius: 16px;
+                top: calc(5vh + (var(--i) * 0.5vh));
+                box-shadow:
+                    0 4px 6px rgba(0, 0, 0, 0.1),
+                    0 10px 20px rgba(0, 0, 0, 0.08),
+                    0 20px 40px rgba(0, 0, 0, 0.05);
+            }
+
+            .card h2,
+            .card h3 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+                color: #ffffff;
+            }
+
+            .card p {
+                color: #999999;
+                font-size: 12px;
+                margin-bottom: 30px;
+                max-width: 80%;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            .text-balance {
+                font-size: 2.5em;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .text-balance {
+                font-size: 2em;
+            }
+
+            .desc-text {
+                font-size: 11px;
+            }
+        }
+    </style>
+
+</head>
+
+<body class="bg-black">
+
+    <p class="pt-3 pb-3 text-right mr-8" style="font-size: 10px;color: #999999;">+91 7907 640 290 &nbsp; &nbsp; &nbsp;
+        &nbsp; inquiries@codeandcompliance.com</p>
+
+    <div class="bg-white" style="border-radius: 25px 25px 0 0;">
+        <header class="absolute inset-x-0 top-9 z-50">
+            <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">
+                <div class="flex lg:flex-1">
+                    <a href="../index.html" class="-m-1.5 p-1.5">
+                        <span class="sr-only">Your Company</span>
+                        <img src="../assets/Coomido..png" alt="" class="h-8 w-auto" />
+                    </a>
+                </div>
+                <div class="flex lg:hidden">
+                    <button type="button" command="show-modal" commandfor="mobile-menu"
+                        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+                        <span class="sr-only">Open main menu</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+                            aria-hidden="true" class="size-6">
+                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="hidden lg:flex lg:gap-x-12">
+                    <a href="index.html" class="text-gray-900">SERVICES</a>
+                    <a href="../solutions/index.html" class="text-gray-900">SOLUTIONS</a>
+                    <a href="../about.html" class="text-gray-900">ABOUT</a>
+                    <a href="../shopify.html" class="text-gray-900">SHOPIFY DEVELOPMENT</a>
+                    <a href="../corporate.html" class="text-gray-900">CORPORATE WEBSITES</a>
+                </div>
+                <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                    <a href="#" class="wipe-btn"><span class="wipe-btn-text">GET IN TOUCH</span></a>
+                </div>
+            </nav>
+            <el-dialog>
+                <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+                    <div tabindex="0" class="fixed inset-0 focus:outline-none">
+                        <el-dialog-panel
+                            class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                            <div class="flex items-center justify-between">
+                                <a href="#" class="-m-1.5 p-1.5">
+                                    <span class="sr-only">Your Company</span>
+                                    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                                        alt="" class="h-8 w-auto" />
+                                </a>
+                                <button type="button" command="close" commandfor="mobile-menu"
+                                    class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                                    <span class="sr-only">Close menu</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                        data-slot="icon" aria-hidden="true" class="size-6">
+                                        <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="mt-6 flow-root">
+                                <div class="-my-6 divide-y divide-gray-500/10">
+                                    <div class="space-y-2 py-6" style="text-transform: capitalize;">
+                                        <a href="index.html"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Services</a>
+                                        <a href="../solutions/index.html"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Solutions</a>
+                                        <a href="../about.html"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">About</a>
+                                        <a href="../shopify.html"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Shopify
+                                            Development</a>
+                                        <a href="../corporate.html"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Corporate
+                                            Websites</a>
+                                    </div>
+                                    <div class="py-6">
+                                        <a href="#" style="font-size: 11px;letter-spacing: 1px;text-align: center;"
+                                            class="-mx-3 block rounded-4xl px-3 border py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">GET
+                                            IN TOUCH</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-dialog-panel>
+                    </div>
+                </dialog>
+            </el-dialog>
+        </header>
+    </div>
+
+    <div class="bg-white py-24 sm:py-32" style="border-radius: 25px 25px 0 0 ;">
+        <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+            <p
+                class="services-head mt-2 max-w-lg text-4xl font-semibold tracking-tight text-balance text-gray-950 sm:text-5xl">
+                Services</p>
+
+            <span class="services-desc">We excel in delivering customized solutions and services specifically crafted to
+                enhance your bottom-line results. We are dedicated to improving your business outcomes and maximizing
+                the impact on your customers.</span>
+
+            <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
+                <div class="relative lg:row-span-2">
+                    <div class="absolute inset-px rounded-lg bg-white lg:rounded-l-4xl"></div>
+                    <div
+                        class="relative flex h-full flex-col justify-between overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+                        <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
+                            <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                eCommerce</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">We’re shaping the future
+                                of commerce where aesthetics meet performance. As a Shopify Partner, we craft
+                                scalable experiences that set a new standard for eCommerce.</p>
+                        </div>
+                        <div class="px-8 pt-8 mb-8 sm:px-10 sm:pt-10 sm:pb-0">
+                            <button class="exp-btn">Design</button>
+                            <button class="exp-btn">B2C</button>
+                            <button class="exp-btn">Shopify</button>
+                        </div>
+                    </div>
+                    <div
+                        class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-black/5 lg:rounded-l-4xl">
+                    </div>
+                </div>
+                <div class="relative max-lg:row-start-1">
+                    <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-4xl"></div>
+                    <div
+                        class="relative flex h-full flex-col justify-between overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
+                        <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+                            <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                Finance</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">We bring intelligence
+                                and efficiency to your financial ecosystem, providing scalable accounting and compliance
+                                services that keep brands ahead.</p>
+                        </div>
+                        <div class="px-8 pt-8 mb-8 sm:px-10 sm:pt-10 sm:pb-0">
+                            <button class="exp-btn">Consulting</button>
+                            <button class="exp-btn">Accounts</button>
+                            <button class="exp-btn">Taxation</button>
+                        </div>
+                    </div>
+                    <div
+                        class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-black/5 max-lg:rounded-t-4xl">
+                    </div>
+                </div>
+                <div class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
+                    <div class="absolute inset-px rounded-lg bg-white"></div>
+                    <div
+                        class="relative flex h-full flex-col justify-between overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
+                        <div class="px-8 pt-8 sm:px-10 sm:pt-10">
+                            <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                Marketing
+                            </p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">We drive growth with
+                                data-driven precision, building scalable marketing systems that attract, convert, and
+                                keep your brand ahead.</p>
+                        </div>
+                        <div class="px-8 pt-8 mb-8 sm:px-10 sm:pt-10 sm:pb-0">
+                            <button class="exp-btn">Meta</button>
+                            <button class="exp-btn">SEO</button>
+                            <button class="exp-btn">AEO</button>
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-black/5">
+                    </div>
+                </div>
+                <div class="relative lg:row-span-2">
+                    <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-b-4xl lg:rounded-r-4xl"></div>
+                    <div
+                        class="relative flex h-full flex-col justify-between overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
+                        <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
+                            <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                                Automations</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">We boost efficiency with
+                                intelligent automation eliminating bottlenecks and improving accuracy.</p>
+                        </div>
+                        <div class="px-8 pt-8 mb-8 sm:px-10 sm:pt-10 sm:pb-0">
+                            <button class="exp-btn">Workflow</button>
+                            <button class="exp-btn">efficiency</button>
+                            <button class="exp-btn">AI</button>
+                        </div>
+                    </div>
+                    <div
+                        class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-black/5 max-lg:rounded-b-4xl lg:rounded-r-4xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="difference-section bg-white">
+        <h2 class="section-head">What makes us different</h2>
+
+        <div class="cards-slider-wrapper">
+            <div class="cards-slider-container" id="cards-sliderContainer" aria-label="cards-slider list">
+                <article class="card-slider">
+                    <img src="https://picsum.photos/800/600?seed=1" alt="rail tracks">
+                    <h3>Impact-Driven Design</h3>
+                    <p>Elevate your brand with our design services, crafted to amplify your brand's presence and
+                        drive growth.</p>
+                    <p>Amplify your brand’s impact with design solutions that can triple your ROI.</p>
+                </article>
+
+                <article class="card-slider">
+                    <img src="https://picsum.photos/800/600?seed=2" alt="rail tracks">
+                    <h3>Innovative digital solutions</h3>
+                    <p>Reinvent your business with our creative design strategies and personalized digital experiences.
+                    </p>
+                    <p>Transform your digital performance, achieving a twofold increase in engagement.</p>
+                </article>
+
+                <article class="card-slider">
+                    <img src="https://picsum.photos/800/600?seed=3" alt="rail tracks">
+                    <h3>Holistic Design Partnership</h3>
+                    <p>From concept to creation, we're your trusted partner ensuring your brand excels in the digital
+                        realm.</p>
+                    <p>Experience seamless design solutions, delivering a 50% faster time-to-market.</p>
+                </article>
+            </div>
+        </div>
+
+        <div class="scroll-buttons" aria-hidden="false">
+            <!-- data-action to avoid colliding names -->
+            <button type="button" data-action="scroll-left" aria-label="Scroll left">←</button>
+            <button type="button" data-action="scroll-right" aria-label="Scroll right">→</button>
+        </div>
+    </section>
+
+    <section class="contact-section section-head bg-white" style="border-radius: 0 0 25px 25px;">
+        <div class="contact-wrapper">
+
+            <!-- LEFT CONTENT -->
+            <div class="contact-left">
+
+                <span class="badge" style="font-size: 10px;">B2B GROWTH SOLUTIONS</span>
+
+                <h1 style="font-weight: 400;" class="tracking-tight text-balance text-gray-900 text-5xl text-3xl">Unlock
+                    Your
+                    Digital<br><span style="color: #999999;">Potential</span></h1>
+
+                <p class="subtext">Book a discovery call to explore:</p>
+
+                <ul class="points">
+                    <li>How the agency can revolutionise your digital presence</li>
+                    <li>How our innovative solutions can boost your business performance</li>
+                    <li>The perfect digital strategy tailored to your needs</li>
+                </ul>
+
+                <div class="logos">
+                    <img src="logo1.png" alt="">
+                    <img src="logo2.png" alt="">
+                    <img src="logo3.png" alt="">
+                    <img src="logo4.png" alt="">
+                </div>
+
+            </div>
+
+            <!-- RIGHT FORM -->
+            <form class="contact-form">
+
+                <label>FIRST NAME *</label>
+                <input type="text" placeholder="Mohammed">
+
+                <label>LAST NAME *</label>
+                <input type="text" placeholder="Dhilshad">
+
+                <label>COMPANY NAME *</label>
+                <input type="text" placeholder="ente.life">
+
+                <label>COMPANY EMAIL *</label>
+                <input type="email" placeholder="support@ente.life">
+
+                <label>PHONE NUMBER</label>
+                <input type="text" placeholder="+91 1234 890 567">
+
+                <button type="submit" style="font-size: 11px;">GET IN TOUCH</button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="container">
+            <h3 class="footer-head">Let's grow <span>together</span></h3>
+            <div class="row">
+                <div class="footer-col">
+                    <h4>services</h4>
+                    <ul>
+                        <li><a href="">eCommerce</a></li>
+                        <li><a href="">Finance</a></li>
+                        <li><a href="">Marketing</a></li>
+                        <li><a href="">Automations</a></li>
+                    </ul>
+                </div>
+
+                <!-- 2nd Column -->
+                <div class="footer-col">
+                    <h4>information</h4>
+                    <ul>
+                        <li><a href="">About Us</a></li>
+                        <li><a href="">News Room</a></li>
+                        <li><a href="">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3rd Column -->
+                <div class="footer-col">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="">Business Architecture</a></li>
+                        <li><a href="">eCommerce Management</a></li>
+                        <li><a href="">Zero to One Consulting</a></li>
+                        <li><a href="">Budgetary Planning</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3th Column -->
+
+                <div class="footer-col">
+                    <button type="submit" value="PLAN A CALL" class="inputSubmit">PLAN A CALL</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <p>&#169; 2025 COOMIDO</p>
+                </div>
+                <div class="socialIcons">
+                    <a href=""><i class="fa-brands fa-instagram"></i></a>
+                    <a href=""><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('cards-sliderContainer');
+
+            // Robust function names to avoid global collisions
+            function scrollCardsLeft(px = 320) {
+                if (!container) return;
+                container.scrollBy({ left: -px, behavior: 'smooth' });
+            }
+            function scrollCardsRight(px = 320) {
+                if (!container) return;
+                container.scrollBy({ left: px, behavior: 'smooth' });
+            }
+
+            // Attach to all buttons with data-action
+            document.querySelectorAll('[data-action="scroll-left"]').forEach(btn => {
+                btn.addEventListener('click', () => scrollCardsLeft(container.clientWidth * 0.9));
+            });
+            document.querySelectorAll('[data-action="scroll-right"]').forEach(btn => {
+                btn.addEventListener('click', () => scrollCardsRight(container.clientWidth * 0.9));
+            });
+
+            // Optional: keyboard support for accessibility
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') scrollCardsLeft();
+                if (e.key === 'ArrowRight') scrollCardsRight();
+            });
+
+            // Optional: resize -> keep scroll position sensible (no-op here but placeholder)
+            window.addEventListener('resize', () => {/* no-op */ });
+        });
+    </script>
+
+</body>
+
+</html>
